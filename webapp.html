@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❌⭕</text></svg>">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f4f4f4;
+      padding: 20px;
+    }
+    h1 {
+      margin-bottom: 10px;
+    }
+    #game {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-gap: 5px;
+      justify-content: center;
+      margin: 20px auto;
+    }
+    .cell {
+      width: 100px;
+      height: 100px;
+      font-size: 2em;
+      background: white;
+      border: 2px solid #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+    .cell:hover {
+      background-color: #eef;
+    }
+    #status {
+      margin-top: 20px;
+      font-size: 1.2em;
+    }
+    #moves {
+      margin-top: 15px;
+      text-align: left;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    #play-again {
+      margin-top: 20px;
+      padding: 10px 20px;
+      font-size: 1.2em;
+      cursor: pointer;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    #play-again:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+  <h1>Tic Tac Toe</h1>
+  <div id="game"></div>
+  <div id="status"></div>
+  <div id="moves"><strong>Moves:</strong><br></div>
+  <button id="play-again" style="display:none;">Play Again</button>
+
+  <script>
+    const gameBoard = Array(9).fill(null);
+    const player = 'X';
+    const computer = 'O';
+    let gameOver = false;
+    const movesLog = [];
+
+    const winningCombos = [
+      [0, 1, 2], [3, 4, 5], [6, 7, 8],  // rows
+      [0, 3, 6], [1, 4, 7], [2, 5, 8],  // cols
+      [0, 4, 8], [2, 4, 6]              // diagonals
+    ];
+
+    const gameContainer = document.getElementById('game');
+    const status = document.getElementById('status');
+    const movesDiv = document.getElementById('moves');
+    const playAgainButton = document.getElementById('play-again');
+
+    // Create grid
+    for (let i = 0; i < 9; i++) {
+      const cell = document.createElement('div');
+      cell.classList.add('cell');
+      cell.dataset.index = i;
+      cell.addEventListener('click', handlePlayerMove);
+      gameContainer.appendChild(cell);
+    }
+
+    function handlePlayerMove(e) {
+      const index = e.target.dataset.index;
+      if (gameOver || gameBoard[index]) return;
+
+      makeMove(index, player);
+      if (!checkGameOver()) {
+        setTimeout(computerMove, 300); // small delay for realism
+      }
+    }
+
+    function computerMove() {
+      const available = gameBoard
+        .map((val, idx) => val === null ? idx : null)
+        .filter(idx => idx !== null);
+
+      if (available.length === 0 || gameOver) return;
+
+      // Simple random move for computer
+      const randomIndex = available[Math.floor(Math.random() * available.length)];
+      makeMove(randomIndex, computer);
+      checkGameOver();
+    }
+
+    function makeMove(index, symbol) {
+      gameBoard[index] = symbol;
+      document.querySelector(`.cell[data-index='${index}']`).textContent = symbol;
+      logMove(symbol, index);
+    }
+
+    function checkGameOver() {
+      for (let combo of winningCombos) {
+        const [a, b, c] = combo;
+        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+          gameOver = true;
+          status.textContent = `${gameBoard[a]} wins!`;
+          highlightWinner([a, b, c]);
+          playAgainButton.style.display = 'inline-block'; // Show "Play Again" button
+          return true;
+        }
+      }
+
+      if (!gameBoard.includes(null)) {
+        gameOver = true;
+        status.textContent = "It's a tie!";
+        playAgainButton.style.display = 'inline-block'; // Show "Play Again" button
+        return true;
+      }
+      return false;
+    }
+
+    function highlightWinner(indices) {
+      indices.forEach(i => {
+        document.querySelector(`.cell[data-index='${i}']`).style.backgroundColor = '#cfc';
+      });
+    }
+
+    function logMove(symbol, index) {
+      const move = `Player ${symbol} → Cell ${index + 1}`;
+      movesLog.push(move);
+      const moveEntry = document.createElement('div');
+      moveEntry.textContent = move;
+      movesDiv.appendChild(moveEntry);
+    }
+
+    playAgainButton.addEventListener('click', () => {
+      gameBoard.fill(null);
+      gameOver = false;
+      movesLog.length = 0;
+      status.textContent = '';
+      movesDiv.innerHTML = '<strong>Moves:</strong><br>';
+      gameContainer.querySelectorAll('.cell').forEach(cell => {
+        cell.textContent = '';
+        cell.style.backgroundColor = '';
+      });
+      playAgainButton.style.display = 'none';
+    });
+  </script>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <a href="index.html">Go to Resume Page</a>
+  <br>
+  <a href="scratch.html">Go to Scratch Page</a>
+</body>
+</html>

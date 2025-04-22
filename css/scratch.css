@@ -1,0 +1,97 @@
+.common {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+    background-color: black;
+    color: white;
+    height: 100px;
+    line-height: 100px;
+}
+
+.mainbody {
+    background-color: whitesmoke;
+}
+
+.footer {
+    position: fixed;
+    background-color: black;
+    color: white;
+    bottom: 0;
+    left: 5px;
+    right: 5px;
+    height: 25px;
+    line-height: 25px;
+}
+
+img {
+    display: block;
+    width: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+}
+
+iframe {
+    display: block;
+    margin: 20px auto;
+}
+
+nav {
+    background-color: lightgray;
+    padding: 10px;
+    overflow: hidden;
+}
+
+nav a {
+    color: #333;
+    text-decoration: none;
+    padding: 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    background-color: #ccc;
+}
+
+.centered-list {
+    list-style-position: inside;
+    padding-left: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.tableau-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+}
+
+.tableauPlaceholder {
+    display: flex;
+    justify-content: center;
+}
+/* Make images responsive and centered */
+.responsive-img {
+    display: block;
+    max-width: 90%;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px; /* optional, just makes edges rounded */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* optional, adds soft shadow */
+}
+
+
+
